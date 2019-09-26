@@ -1,0 +1,47 @@
+version 0.0.0;
+
+Mechanism m_1(){
+    func OnExecute(){
+        log("mech log...");
+    }
+}
+
+Aspect a_1(){
+  string AspectDescription = "aspect description";
+  int AspectDefaultValue = 0;
+}
+
+Root r_1(){
+    
+  Aspects.add(a_1);
+  
+  func code(){
+    a_1 = (a_1 + 1);
+  }
+  
+}
+
+Blockchain B1(Consensus, Roots){
+    
+  this.consensus = Consensus.POW;
+  
+  Roots.add(a_1);
+  
+  func OnCreate(Config i, Status s){ 
+    log("created..."); 
+    return True; 
+  }
+  
+  func testFunc(Block b){
+    Nonce answer = b.nonce;
+    return answer;
+  }
+  
+  func OnNewBlock(Block b, Hash h){
+    log("i wrote a new block: "+b.id+" : "+h);
+    Int number_result = testFunc(b);
+    log(number_result);
+  }
+  
+}                             
+                                

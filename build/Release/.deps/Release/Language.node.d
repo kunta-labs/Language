@@ -1,0 +1,1 @@
+cmd_Release/Language.node := c++ -bundle -undefined dynamic_lookup -Wl,-no_pie -Wl,-search_paths_first -mmacosx-version-min=10.7 -arch x86_64 -L./Release -stdlib=libc++  -o Release/Language.node Release/obj.target/Language/lexer/lexer.o Release/obj.target/Language/lexer/language.o Release/obj.target/Language/lexer/ks.o 

@@ -1,0 +1,49 @@
+//import vote, votes;
+//import verdict, end_date;
+
+Aspect votes{
+	description = "blah";
+	default_value = 0;
+}
+
+Root vote(Aspect){
+	access = 0;
+	code = "dsdsdf";
+	return = "blah";
+	AddAspect(votes);
+}
+
+Aspect end_date{
+	description = "end date"
+	default_value = 1826387363
+}
+
+Root verdict(Aspect){
+	access = 0;
+	code = "dsds";
+	return = "dsd";
+	AddAspect(end_date);
+}
+
+Blockchain B1(Consensus, Root) { 
+
+	require(1); 
+	require(2); 
+
+	this.consensus = Consensus.POW;
+
+	AddRoot(vote);
+	AddRoot(verdict);
+
+	func Create(){ 
+		test('dsd'); 
+		return 0; 
+	}; 
+
+	func OnNewBlock(){
+		log("i wrote a new block");
+	}
+
+	create(); 
+
+}

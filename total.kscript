@@ -1,0 +1,318 @@
+Aspect votes {
+	AspectDescription = "test";
+	AspectDefaultValue = 0;
+}
+
+Aspect end_date {
+	AspectDescription = "test2";
+	AspectDefaultValue = 1826387363;
+}
+
+Root ballot {
+	AddAspect(votes);
+	AddAspect(end_date);
+	RootAccess = Private;
+	RootCode = Code{
+		votes + 1;
+		Store();
+		ConstStack();
+		Hash();
+		ConstStack();
+		PublicKeyHash;
+		ConstEqualDrop();
+		Account(able_to_vote);
+		CriticalVerify();
+		UnixTime(1528309429);
+		Time_Greater();
+		CriticalVerify();
+	}
+
+	RootReturn = votes;
+
+}
+
+
+Blockchain B1 {
+
+	this.consensus = Consensus.POW;
+
+	AddRoot(test_root);
+
+	func Create(Config i, Status s){ 
+		log("election created..."); 
+		return True; 
+	}; 
+
+	func check_time(Block b){
+
+		Nonce n = b.header.nonce;
+		Int electionEnded;
+
+		///july first timestamp
+		if(b.header.timestamp > 192803940){
+			log("voting period has ended");
+			electionEnded = 1;
+		}else{
+			log("election in progress");
+			electionEnded = 0;
+		}
+
+		return electionEnded;
+
+	}
+
+	func verdict(){
+		log("judging election...");
+	}
+
+	func OnNewBlock(Block b, Hash h){
+
+		log("i wrote a new block: "+b.id+" : "+h);
+
+		Int election_is_over;
+
+		election_is_over = check_time(b);
+
+		if(election_is_over){
+			verdict();
+		}else{
+			log(election_is_over);
+		}
+		
+	}
+
+}
+
+
+
+%%%%%%%%%%%%%%%%%%
+
+
+Mechanism vickery_auction(){
+	
+	payment
+	valuation
+	social choice
+	ChoiceModel = Choice.Uncoordinated;
+
+}
+
+Mechanism national_forest(){
+	
+	Oracle forester;
+
+	ExternalAgent logger;
+
+	ExternalAgent preserver;
+
+	logger.role = "logger";
+	preserver.role = "preservationalist";
+
+	Lambda loggingAmount = Math.scalar(0);
+
+	ProposedLogging = loggingAmount;
+
+	Decision::Accept(Lambda proposed_logging){
+
+		string decision_mode = "uncoop";
+
+		if(decision_mode == "uncoop"){
+			
+			if( decision_l(proposed_logging) || decision_p(proposed_logging)){
+				return true;
+			}else{ 
+				return false;
+			}
+
+		}else if(decision_mode == "coop"){
+			
+			if( decision_l(proposed_logging) && decision_p(proposed_logging)){
+				return true;
+			}else{ 
+				return false;
+			}
+
+		}
+
+
+		if (true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
+	MessageSpace = Query( Accept(ProposedLogging) );
+
+	EquilibriumRelations = EQ;
+	
+	InitiateEnvironment(){
+
+		PFunction p_a = [t_max, t_min];
+		PFunction p_b = [t_max, t_min];
+
+		a1 = p_a(lambda_1);
+		a2 = p_a(lambda_2);
+
+		b1 = p_b(lambda_1);
+		b2 = p_b(lambda_2);
+
+		P_1 = (a_1, a_2);
+		P_2 = (b_1, b_2);
+
+		Environment = (P_1, P_2);
+
+	}
+
+	SocialWelfare(){
+		MessageSpace.get();
+		EquilibriumMessages->OutomeChoices.choose()
+	}
+
+	Outcome(){
+		
+	}
+}
+
+
+
+
+
+SocialWelfare(Blockchain B){
+	
+	%rawlsian
+	min(B.Nodes.Root.transaction.value);
+
+	%utilitarian
+	sum(B.Nodes.Root.transaction.value);
+
+	%Amartya-sensian
+	float gini = GiniIndex(B.Nodes.Root.transaction.value);
+	avg(B.Nodes.Root.transaction.value) * (1 - gini);
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Blockchain B1(Consensus, Root) {
+
+	this.consensus = Consensus.POW;
+
+	func Create(Config i, Status s){ 
+		log("created..."); 
+		return True; 
+	}
+
+	func testFunc(Block b){
+		Nonce answer = b.nonce;
+		return answer;
+	}
+
+	func OnNewBlock(Block b, Hash h){
+		log("i wrote a new block: "+b.id+" : "+h);
+		Int number_result = testFunc(b);
+		log(number_result);
+	}
+
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Mechanism m (...){
+	Decision::Accept()
+	InitiateEnvironment()
+
+	SocialWelfare()
+	ValuationFunction()
+	Payment()
+	SocialChoice()
+
+	Outcome()
+}
+
+Consensus.new_mechanism(m)
+
+Aspect aspect_one(){
+	
+}
+
+Root root_one(){
+	AddAspect(aspect_one)
+}
+
+Blockchain my_chain {
+
+	this.consensus = Consensus.m;
+	this.ROOTS.add(my_root);
+
+	func Create(Config i, Status s)
+	func OnNewBlock(Block b, Hash h)
+}
+
+
+%TMP
+Root root_1(){
+    
+}
+
+Mechanism national_forest(){
+    
+	Oracle forester;
+
+	ExternalAgent logger;
+
+	ExternalAgent preserver;
+
+	logger.role = "logger";
+	preserver.role = "preservationalist";
+
+	func SocialWelfare(){
+		Int index = 0;
+	}
+
+}
+
+Blockchain b_1(Consensus, Root){
+    func that_time(){
+    	Log("overall");
+    }
+}
+
+
+-----------------------------
+
+version 0.2.3;
+
+Aspect aspect_1{
+    
+}
+
+Root root_1(){
+    
+}
+
+Mechanism national_forest(){
+	Oracle forester;
+	ExternalAgent logger;
+	ExternalAgent preserver;
+
+	logger.role = "logger";
+	preserver.role = "preservationalist";
+
+	func SocialWelfare(){
+		Int index = 0;
+	}
+
+}
+
+Blockchain b_1(Consensus, Root){
+    func that_time_second(){
+    	Log("overall");
+    }
+}
+
+
+

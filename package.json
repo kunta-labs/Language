@@ -1,0 +1,33 @@
+{
+  "name": "KuntaLanguage",
+  "version": "0.0.0",
+  "description": "Language POC for Kunta Nucleus",
+  "scripts": {
+    "start": "node language.js"
+  },
+  "dependencies": {
+    "bindings": "~1.2.1",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.15.2",
+    "crypto-js": "^3.1.6",
+    "express": "~4.11.1",
+    "level-browserify": "^1.1.2",
+    "electron-rebuild": "^1.8.2",
+    "levelgraph": "^2.1.1",
+    "merkle": "^0.6.0",
+    "nan": "^2.0.0",
+    "npm": "^6.1.0",
+    "prettyjson": "^1.2.1",
+    "threads": "^0.11.0",
+    "to": "^0.2.9",
+    "update": "^0.7.4",
+    "ws": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=4.3.2"
+  },
+  "gypfile": true,
+  "devDependencies": {
+    "electron": "^3.0.13"
+  }
+}
