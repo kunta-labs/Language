@@ -1,3 +1,6 @@
+<img src="http://kunta.io/img/kunta_right.png" alt="Project Kunta Logo" width="200"/>
+
+
 # Abstraction Language
 
 
